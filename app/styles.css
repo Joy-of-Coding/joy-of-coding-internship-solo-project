@@ -1,0 +1,86 @@
+/* Basic reset and styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Styling for the book container */
+  .book {
+    width: 400px;
+    height: 600px;
+    margin: 50px auto;
+    border: 2px solid #5d4037;
+    border-radius: 10px;
+    position: relative;
+    background: #fff7e6; /* Light paper color */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Book cover (front page) */
+  .book-cover {
+    height: 150px;
+    background-color: #6f4f37;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .book-title {
+    font-family: 'Georgia', serif;
+    font-size: 36px;
+  }
+  
+  /* Book pages styling */
+  .book-pages {
+    padding: 20px;
+    font-family: 'Georgia', serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: #3e2723;
+    height: calc(100% - 150px);
+    background-color: #fff;
+    border-radius: 0 0 10px 10px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+  }
+  
+  /* Lock button styling */
+  .lock-button {
+    background-color: #f1c40f;
+    border: 2px solid #f39c12;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .lock-button:focus {
+    outline: none;
+  }
+  
+  .lock-button:hover {
+    background-color: #e67e22;
+  }
+  
+  .lock-button::before {
+    content: '🔒';
+    margin-right: 10px;
+  }
+  
+  /* Hover animation to simulate diary lock unlocking */
+  .lock-button.unlocked {
+    background-color: #2ecc71;
+    border-color: #27ae60;
+  }
+  
+  .lock-button.unlocked::before {
+    content: '🔓';
+  }
+  
