@@ -9,7 +9,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Issueschema } from "@/app/validationschema";
+import { Taskschema } from "@/app/validationschema";
 import { z } from "zod";
 import ErrorMessage from "../../components/ErrorMessage";
 import { Spinnaker } from "next/font/google";
@@ -18,21 +18,25 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false, // Disable server-side rendering for this component
 });
 
-type IssueForm = z.infer<typeof Issueschema>;
+type TaskForm = z.infer<typeof Taskschema>;
 /*interface IssueForm {
   title: string;
   description: string;
+  category: string;
+  duedate: date
+
+
 }*/
 
-const NewIssuepage = () => {
+const NewTaskpage = () => {
   const router = useRouter();
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<IssueForm>({
-    resolver: zodResolver(Issueschema),
+  } = useForm<TaskForm>({
+    resolver: zodResolver(Taskschema),
   });
   console.log(register("title"), control, handleSubmit);
   const [error, setError] = useState("");
@@ -78,4 +82,4 @@ const NewIssuepage = () => {
   );
 };
 
-export default NewIssuepage;
+export default NewTaskpage;
