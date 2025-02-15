@@ -12,10 +12,10 @@ datasource db {
 
 model Task {
   id          Int      @id @default(autoincrement())
-  task        String
-  description String
-  dueDate     DateTime
-  category    String
+  task        String   @db.VarChar(150)
+  description String   @db.Text
+  dueDate     DateTime @default(now())
+  category    String   @db.VarChar(100)
   status      Status   @default(OPEN)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

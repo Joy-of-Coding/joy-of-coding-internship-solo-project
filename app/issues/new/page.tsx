@@ -1,32 +1,21 @@
 "use client";
 import dynamic from "next/dynamic";
-/*import SimpleMDE from "react-simplemde-editor"; */
 import "easymde/dist/easymde.min.css";
-import { Button, Callout, Spinner, TextField } from "@radix-ui/themes";
-/*import { PiPlaceholder } from "react-icons/pi";*/
+import { Button, Spinner, TextField } from "@radix-ui/themes";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Taskschema } from "@/app/validationschema";
 import { z } from "zod";
 import ErrorMessage from "../../components/ErrorMessage";
-import { Spinnaker } from "next/font/google";
 
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false, // Disable server-side rendering for this component
 });
 
 type TaskForm = z.infer<typeof Taskschema>;
-/*interface IssueForm {
-  title: string;
-  description: string;
-  category: string;
-  duedate: date
-
-
-}*/
 
 const NewTaskpage = () => {
   const router = useRouter();
@@ -38,26 +27,34 @@ const NewTaskpage = () => {
   } = useForm<TaskForm>({
     resolver: zodResolver(Taskschema),
   });
-  console.log(register("title"), control, handleSubmit);
+
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
+
+  // ✅ Debugging logs
+  useEffect(() => {
+    console.log("Form Errors:", errors);
+  }, [errors]);
+
+  const onSubmit = async (data: TaskForm) => {
+    try {
+      setSubmitting(true);
+      console.log("Submitting Data:", data); // ✅ Debug form data
+      await axios.post("/api/tasks", data);
+      router.push("/tasks");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setError("An unexpected error has occurred.");
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="max-w-xl">
       <ErrorMessage>{errors.title?.message}</ErrorMessage>
-      <form
-        className="max-w-xl space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setSubmitting(true);
-            await axios.post("/api/issues", data);
-            router.push("/issues");
-          } catch (error) {
-            setSubmitting(false);
-            setError("An unexpected error has occurred.");
-          }
-        })}
-      >
+      <form className="max-w-xl space-y-3" onSubmit={handleSubmit(onSubmit)}>
         <TextField.Root placeholder="Title" {...register("title")} />
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
 
         <Controller
           name="description"
@@ -74,7 +71,7 @@ const NewTaskpage = () => {
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
         <Button disabled={isSubmitting}>
-          Submit New Issue
+          Submit New Task
           {isSubmitting && <Spinner />}
         </Button>
       </form>

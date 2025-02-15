@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import {
   Lock,
   Unlock,
@@ -24,7 +26,9 @@ interface NewTask {
   dueDate: string;
   category: string;
 }
+
 const DiaryTaskList = () => {
+  const router = useRouter();
   const [isLocked, setIsLocked] = useState(true);
   const [pin, setPin] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -47,26 +51,29 @@ const DiaryTaskList = () => {
     }
   };
 
-  const handleAddTask = () => {
-    if (!newTask.name || !newTask.description) {
-      alert("Please fill in at least the name and description");
+  const handleAddTask = async () => {
+    if (
+      !newTask.name ||
+      !newTask.description ||
+      !newTask.category ||
+      !newTask.dueDate
+    ) {
+      alert("Please fill in all required fields.");
       return;
     }
+    try {
+      console.log(newTask);
+      const response = await axios.post("/api/tasks", newTask);
+      router.push("/tasks");
+      newTask;
 
-    setTasks([
-      ...tasks,
-      {
-        id: Date.now(),
-        ...newTask,
-      },
-    ]);
-    setNewTask({
-      name: "",
-      description: "",
-      dueDate: "",
-      category: "",
-    });
-    setIsAdding(false);
+      setTasks([...tasks, { id: response.data.id, ...newTask }]);
+      setNewTask({ name: "", description: "", dueDate: "", category: "" });
+      setIsAdding(false);
+    } catch (error) {
+      console.error("Error saving task:", error);
+      alert("An error occurred while saving the task.");
+    }
   };
 
   const deleteTask = (taskId: number) => {
@@ -171,7 +178,7 @@ const DiaryTaskList = () => {
                 <span>Lock</span>
               </button>
             </div>
-          </div>
+          </div> 
 
           {isAdding && (
             <div className="mb-6 bg-white p-4 rounded-lg shadow">
