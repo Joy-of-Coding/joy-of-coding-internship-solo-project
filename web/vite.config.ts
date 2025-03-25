@@ -10,6 +10,11 @@ import redwood from '@redwoodjs/vite'
 dns.setDefaultResultOrder('verbatim')
 
 const viteConfig: UserConfig = {
+  server: {
+    proxy: {
+      '/graphql': 'http://localhost:8911', // Added to connect to graphql
+    },
+  },
   plugins: [redwood()],
 }
 
