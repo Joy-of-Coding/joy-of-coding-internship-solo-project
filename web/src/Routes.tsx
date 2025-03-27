@@ -27,6 +27,7 @@ const Routes = () => {
       <Set Wrap={TasksLayout}>
         <Route path="/about" page={AboutPage} name="about" />
         <Route path="/" page={HomePage} name="home" />
+        <Route path="/detail/{id:Int}" page={DetailPage} name="detail" />
       </Set>
       <Route notfound page={NotFoundPage} />
     </Router>
