@@ -1,0 +1,22 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch updates
+# Changes to be committed:
+#	modified:   .vscode/extensions.json
+#	modified:   .vscode/settings.json
+#	modified:   package.json
+#	modified:   prettier.config.js
+#	modified:   web/package.json
+#	modified:   web/src/Routes.tsx
+#	modified:   web/src/components/ArticlesCell/ArticlesCell.tsx
+#	modified:   web/src/index.css
+#	modified:   web/src/scaffold.css
+#	modified:   yarn.lock
+#
+# Untracked files:
+#	web/config/
+#	web/src/components/DetailCell/
+#	web/src/pages/DetailPage/
+#

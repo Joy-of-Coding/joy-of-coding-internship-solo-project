@@ -32,7 +32,11 @@ const ContactPage = () => {
             className="space-y-4"
           >
             {/* Name Field */}
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="nagit status
+              me"
+              className="block text-sm font-medium text-gray-700"
+            >
               Name:
             </label>
             <TextField
@@ -41,10 +45,13 @@ const ContactPage = () => {
               className="w-full rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your name here..."
             />
-            <FieldError name="name" className="text-red-600 text-sm" />
+            <FieldError name="name" className="text-sm text-red-600" />
 
             {/* Email Field */}
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
               Email:
             </label>
             <TextField
@@ -59,10 +66,13 @@ const ContactPage = () => {
               className="w-full rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your email here..."
             />
-            <FieldError name="email" className="text-red-600 text-sm" />
+            <FieldError name="email" className="text-sm text-red-600" />
 
             {/* Message Field */}
-            <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium text-gray-700"
+            >
               Your Message:
             </label>
             <TextAreaField
@@ -71,7 +81,7 @@ const ContactPage = () => {
               className="w-full rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your message here..."
             />
-            <FieldError name="message" className="text-red-600 text-sm" />
+            <FieldError name="message" className="text-sm text-red-600" />
 
             {/* Submit Button */}
             <Submit className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">

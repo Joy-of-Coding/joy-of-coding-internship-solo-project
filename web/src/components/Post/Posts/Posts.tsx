@@ -47,8 +47,8 @@ const PostsList = ({ posts }: FindPosts) => {
   return (
     <div className="rw-segment rw-table-wrapper-responsive">
       <table className="rw-table">
-        <thead>
-          <tr>
+        <thead className="text-blue-600 hover:underline">
+          <tr className="text-blue-700">
             <th>Id</th>
             <th>Task</th>
             <th>Description</th>
