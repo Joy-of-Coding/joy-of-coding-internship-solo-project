@@ -26,7 +26,7 @@ const ContactPage = () => {
           Contact Us
         </h1>
         <div className="mx-auto max-w-lg rounded-lg border bg-white p-6 shadow-md">
-          <Form
+          <Forit
             onSubmit={onSubmit}
             config={{ mode: 'onBlur' }}
             className="space-y-4"
@@ -87,7 +87,7 @@ const ContactPage = () => {
             <Submit className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
               Send Message
             </Submit>
-          </Form>
+          </Forit>
         </div>
       </div>
     </>
