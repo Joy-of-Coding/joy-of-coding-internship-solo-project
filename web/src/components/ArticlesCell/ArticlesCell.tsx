@@ -1,87 +1,40 @@
-import {
-  FieldError,
-  Form,
-  TextField,
-  TextAreaField,
-  Submit,
-} from '@redwoodjs/forms'
-import { Metadata } from '@redwoodjs/web'
+import type { ArticlesQuery } from 'types/graphql'
+import { Link, routes } from '@redwoodjs/router'
+import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
-interface FormValues {
-  name: string
-  email: string
-  message: string
-}
-
-const ContactPage = () => {
-  const onSubmit = (data: FormValues) => {
-    console.log(data)
+export const QUERY = gql`
+  query ArticlesQuery {
+    articles: posts {
+      id
+      task
+      description
+      dueDate
+    }
   }
+`
 
+export const Loading = () => <div className="text-gray-500">Loading...</div>
+
+export const Empty = () => <div className="text-gray-500">No articles found.</div>
+
+export const Failure = ({ error }: CellFailureProps) => (
+  <div className="text-red-500 font-bold">Error: {error?.message}</div>
+)
+
+export const Success = ({ articles }: CellSuccessProps<ArticlesQuery>) => {
   return (
-    <>
-      <Metadata title="Contact" description="Contact page" />
-      <div className="container mx-auto px-6 py-10 md:px-12 lg:px-24">
-        <h1 className="mb-6 text-center text-3xl font-bold text-gray-900">
-          Contact Us
-        </h1>
-        <div className="mx-auto max-w-lg rounded-lg border bg-white p-6 shadow-md">
-          <Form
-            onSubmit={onSubmit}
-            config={{ mode: 'onBlur' }}
-            className="space-y-4"
-          >
-            {/* Name Field */}
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-              Name:
-            </label>
-            <TextField
-              name="name"
-              validation={{ required: true }}
-              className="w-full rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your name here..."
-            />
-            <FieldError name="name" className="text-red-600 text-sm" />
-
-            {/* Email Field */}
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email:
-            </label>
-            <TextField
-              name="email"
-              validation={{
-                required: true,
-                pattern: {
-                  value: /^[^@]+@[^.]+\..+$/,
-                  message: 'Please enter a valid email address',
-                },
-              }}
-              className="w-full rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your email here..."
-            />
-            <FieldError name="email" className="text-red-600 text-sm" />
-
-            {/* Message Field */}
-            <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-              Your Message:
-            </label>
-            <TextAreaField
-              name="message"
-              validation={{ required: true }}
-              className="w-full rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your message here..."
-            />
-            <FieldError name="message" className="text-red-600 text-sm" />
-
-            {/* Submit Button */}
-            <Submit className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
-              Send Message
-            </Submit>
-          </Form>
-        </div>
-      </div>
-    </>
+    <div className="space-y-6 p-4">
+      {articles.map((article) => (
+        <article key={article.id} className="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow">
+          <header className="mb-2 border-b pb-2">
+            <h2 className="text-xl font-semibold text-blue-600 hover:text-blue-800">
+              <Link to={routes.detail({ id: article.id })}>{article.task}</Link>
+            </h2>
+          </header>
+          <p className="text-gray-700 mb-2">{article.description}</p>
+          <div className="text-sm text-gray-500">Posted at: {article.dueDate}</div>
+        </article>
+      ))}
+    </div>
   )
 }
-
-export default ContactPage
