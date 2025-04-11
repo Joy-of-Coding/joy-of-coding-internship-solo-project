@@ -23,7 +23,16 @@ const DELETE_POST_MUTATION: TypedDocumentNode<
   }
 `
 
-const PostsList = ({ posts }: FindPosts) => {
+const PostsList = ({
+  posts,
+  onSort,
+  sortField,
+  sortOrder,
+}: FindPosts & {
+  onSort?: (field: string) => void
+  sortField?: string
+  sortOrder?: 'asc' | 'desc'
+}) => {
   const [deletePost] = useMutation(DELETE_POST_MUTATION, {
     onCompleted: () => {
       toast.success('Post deleted')
@@ -43,6 +52,15 @@ const PostsList = ({ posts }: FindPosts) => {
       deletePost({ variables: { id } })
     }
   }
+  const renderSortableHeader = (label: string, field: string) => (
+    <th
+      className="cursor-pointer text-blue-700 hover:underline"
+      onClick={() => onSort?.(field)}
+    >
+      {label}{' '}
+      {sortField === field && (sortOrder === 'asc' ? '▲' : '▼')}
+    </th>
+  )
 
   return (
     <div className="rw-segment rw-table-wrapper-responsive">
@@ -50,11 +68,11 @@ const PostsList = ({ posts }: FindPosts) => {
         <thead className="text-blue-600 hover:underline">
           <tr className="text-blue-700">
             <th>Id</th>
-            <th>Task</th>
+            {renderSortableHeader('Task', 'task')}
             <th>Description</th>
-            <th>Due date</th>
-            <th>Category</th>
-            <th>Status</th>
+            {renderSortableHeader('Due date', 'dueDate')}
+            {renderSortableHeader('Category', 'category')}
+            {renderSortableHeader('Status', 'status')}
             <th>Created at</th>
             <th>Updated at</th>
             <th>&nbsp;</th>

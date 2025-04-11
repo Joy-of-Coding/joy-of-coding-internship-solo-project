@@ -23,9 +23,9 @@ export const Failure = ({ error }: CellFailureProps) => (
 
 export const Success = ({ articles }: CellSuccessProps<ArticlesQuery>) => {
   return (
-    <div className="space-y-6 p-4">
+    <div className="space-y-6 p-4 bg-#8f5774 -100 min-h-screen">
       {articles.map((article) => (
-        <article key={article.id} className="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow">
+        <article key={article.id} className="p-6 bg-light-green rounded-xl shadow-md hover:shadow-lg transition-shadow">
           <header className="mb-2 border-b pb-2">
             <h2 className="text-xl font-semibold text-blue-600 hover:text-blue-800">
               <Link to={routes.detail({ id: article.id })}>{article.task}</Link>

@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import type { FindPosts, FindPostsVariables } from 'types/graphql'
 
 import { Link, routes } from '@redwoodjs/router'
@@ -39,10 +41,30 @@ export const Empty = () => {
 
 export const Failure = ({ error }: CellFailureProps<FindPosts>) => (
   <div className="rw-cell-error">{error?.message}</div>
+
 )
 
 export const Success = ({
   posts,
 }: CellSuccessProps<FindPosts, FindPostsVariables>) => {
-  return <Posts posts={posts} />
+  const [sortField, setSortField] = useState<'task' | 'dueDate' | 'status' | 'category'>('task')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+
+  const sortedPosts = [...posts].sort((a, b) => {
+    const aVal = a[sortField] ?? ''
+    const bVal = b[sortField] ?? ''
+    const compare = aVal.localeCompare ? aVal.localeCompare(bVal) : String(aVal).localeCompare(String(bVal))
+    return sortOrder === 'asc' ? compare : -compare
+  })
+
+  const handleSort = (field) => {
+    if (field === sortField) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortField(field)
+      setSortOrder('asc')
+    }
+  }
+
+  return <Posts posts={sortedPosts} onSort={handleSort} sortField={sortField} sortOrder={sortOrder} />
 }
